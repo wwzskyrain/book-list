@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tk.mybatis.simple.mapper.SysUserMapper">
+
+    <cache type="org.mybatis.caches.redis.RedisCache"/>
+
+    <resultMap id="userMap" type="tk.mybatis.simple.model.SysUser">
+        <id property="id" column="id"/>
+        <result property="name" column="user_name"/>
+        <result property="password" column="user_password"/>
+        <result property="email" column="user_email"/>
+        <result property="info" column="user_info"/>
+        <result property="headImg" column="head_img" jdbcType="BLOB"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="userRoleMap"
+               extends="userMap"
+               type="tk.mybatis.simple.model.SysUser">
+        <association property="role"
+                     javaType="tk.mybatis.simple.model.SysRole"
+                     columnPrefix="role_">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="enabled" column="enabled"/>
+            <result property="createBy" column="create_by"/>
+            <result property="createTime" column="create_time"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="userRolesMap"
+               type="tk.mybatis.simple.model.SysUser">
+        <id property="id" column="id"/>
+        <result property="name" column="user_name"/>
+        <result property="password" column="user_password"/>
+        <result property="email" column="user_email"/>
+        <result property="info" column="user_info"/>
+        <result property="headImg" column="head_img" jdbcType="BLOB"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <collection property="roles"
+                    ofType="tk.mybatis.simple.model.SysRole"
+                    columnPrefix="role_">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="enabled" column="enabled"/>
+            <result property="createBy" column="create_by"/>
+            <result property="createTime" column="create_time"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectUserById" resultMap="userMap">
+        select
+            id,
+            user_name,
+            user_password,
+            user_email,
+            user_info,
+            head_img,
+            create_time
+        from
+            sys_user
+        where
+            id = #{id};
+    </select>
+
+
+    <select id="selectUserAndRolesById" resultMap="userRolesMap">
+        select
+            ut.id id,
+            ut.user_name user_name,
+            ut.user_password user_password,
+            ut.user_email user_email,
+            ut.user_info user_info,
+            ut.head_img head_img,
+            ut.create_time create_time,
+            rt.id "role_id",
+            rt.role_name "role_name",
+            rt.enabled "role_enabled",
+            rt.create_by "role_create_by",
+            rt.create_time "role_create_time"
+        from
+            sys_user ut,
+            sys_role rt,
+            sys_user_role urt
+        where
+            ut.id = urt.user_id and
+            urt.role_id = rt.id and
+            ut.id = #{id}
+    </select>
+
+
+    <select id="selectUserAndRoleById2" resultMap="userRoleMap">
+        select
+        ut.id id,
+        ut.user_name user_name,
+        ut.user_password user_password,
+        ut.user_email user_email,
+        ut.user_info user_info,
+        ut.head_img head_img,
+        ut.create_time create_time,
+        rt.id "role_id",
+        rt.role_name "role_name",
+        rt.enabled "role_enabled",
+        rt.create_by "role_create_by",
+        rt.create_time "role_create_time"
+        from
+        sys_user ut,
+        sys_role rt,
+        sys_user_role urt
+        where
+        ut.id = urt.user_id and
+        urt.role_id = rt.id and
+        ut.id = #{id}
+    </select>
+
+    <select id="selectUserAndRoleById" resultType="SysUser">
+        select
+        ut.id id,
+        ut.user_name name,
+        ut.user_password password,
+        ut.user_email email,
+        ut.head_img headImg,
+        ut.create_time createTime,
+        rt.id "role.id",
+        rt.role_name "role.name",
+        rt.enabled "role.enabled",
+        rt.create_by "role.createTy",
+        rt.create_time "role.createTime"
+        from
+        sys_user ut,
+        sys_role rt,
+        sys_user_role urt
+        where
+        ut.id = urt.user_id and
+        urt.role_id = rt.id and
+        ut.id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="tk.mybatis.simple.model.SysUser">
+        insert into sys_user
+            (id,
+            user_name,
+            user_password,
+            user_email,
+            user_info,
+            head_img,
+            create_time)
+        values
+            (#{id},
+            #{name},
+            #{password},
+            #{email},
+            #{info},
+            #{headImg},
+            #{createTime}
+            )
+    </insert>
+
+    <update id="update" parameterType="tk.mybatis.simple.model.SysUser">
+        update
+            sys_user
+        set
+            user_name = #{name},
+            user_password = #{password},
+            user_email = #{email},
+            user_info = #{info},
+            head_img = #{headImg},
+            create_time = #{createTime}
+        where
+            id = #{id}
+    </update>
+
+</mapper>
