@@ -1,0 +1,18 @@
+1.  概念
+    1.  终极和原始目标：对微服务应用实例的自动化管理
+    2.  主要内容：服务注册与发现
+
+2.  程序说明
+    1.  目标：实现服务的注册和发现
+    2.  目标拆解：
+        1.  服务注册中心-eureka.server，启动并访问链接 [eureka主页](http://localhost:1111)
+
+    3.  程序架构讲解
+        1.  本module是服务注册中心-也即是服务端，主要是在pom中添加依赖，并使用注解`EnableEurekaServer`
+            启动eureka-server就好了；也即是说，本spring-boot模块只是eureka-server的
+            一个启动器。
+        2.  eureka-client模块则是服务的注册端，这里服务注册所做的工作有二，一是使用`@EnableDiscoveryClient`
+            注解来启动一个eureka客户端，第二就是在application.properties配置文件中配置该
+            服务的参数，比如服务名字、注册中心的地址；注意，启动了eureka客户端之后，也是使用
+            自动注入的方式使用该客户端，比如访问一些服务端配置信息，自动注入形式比如
+            `@Autowired private DiscoveryClient client;`

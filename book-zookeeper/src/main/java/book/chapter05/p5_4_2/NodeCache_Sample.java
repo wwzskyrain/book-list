@@ -24,7 +24,7 @@ public class NodeCache_Sample {
 	    final NodeCache cache = new NodeCache(client,path,false);
 		cache.start(true);
 		cache.getListenable().addListener(new NodeCacheListener() {
-			@Override
+
 			public void nodeChanged() throws Exception {
 				System.out.println("Node data update, new data: " + 
 			    new String(cache.getCurrentData().getData()));

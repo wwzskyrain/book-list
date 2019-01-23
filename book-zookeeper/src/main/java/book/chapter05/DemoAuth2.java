@@ -37,7 +37,7 @@ public class DemoAuth2 implements Watcher {
             //zkClient = new ZkClient(SERVER_LIST, 50000);
             //zkClient.addAuthInfo(authentication_type, correctAuthentication.getBytes());
         } catch (Exception e) {
-            // TODO Auto-generated catch block
+
             e.printStackTrace();
         }
 
@@ -96,7 +96,6 @@ public class DemoAuth2 implements Watcher {
 
 
     public void process(WatchedEvent event) {
-        // TODO Auto-generated method stub
 
     }
 

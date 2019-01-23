@@ -21,9 +21,11 @@ public class Recipes_MasterSelect {
                 master_path,
                 new LeaderSelectorListenerAdapter() {
                     public void takeLeadership(CuratorFramework client) throws Exception {
-                        System.out.println("成为Master角色");
+
+                        String clientString = client.getConfig().toString();
+                        System.out.println("Client " + clientString + " become the master.");
                         Thread.sleep(3000);
-                        System.out.println("完成Master操作，释放Master权利");
+                        System.out.println("Client " + clientString + " release the master.");
                     }
                 });
         selector.autoRequeue();
