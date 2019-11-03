@@ -23,7 +23,7 @@ public class SysUserMapperTest {
 
         try {
 
-            Reader mybatisConfigReader = Resources.getResourceAsReader("mybatis-config.xml");
+            Reader mybatisConfigReader = Resources.getResourceAsReader("mybatis-config-for-country-test.xml");
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(mybatisConfigReader);
 
         } catch (IOException e) {

@@ -9,4 +9,43 @@
         from country
     </select>
 
+    <select id="selectOneWithoutParam" resultType="tk.mybatis.simple.model.Country">
+        select *
+        from country
+        where id = 1
+    </select>
+
+    <select id="selectOneById" resultType="tk.mybatis.simple.model.Country">
+        select *
+        from country
+        where id = #{0}
+    </select>
+
+    <select id="selectOneByIdAndCodeWithList" resultType="tk.mybatis.simple.model.Country">
+        select *
+        from country
+        where id = #{0}
+        and countrycode = #{1}
+    </select>
+
+    <select id="selectOneByIdAndCodeWithMap" resultType="tk.mybatis.simple.model.Country">
+        select *
+        from country
+        where id = #{id}
+        and countrycode = #{countrycode}
+    </select>
+
+    <select id="selectOneByIdAndCode" resultType="Country">
+        select *
+        from country
+        where id = #{id}
+        and countrycode = #{countrycode}
+    </select>
+
+
+
+
+
+
+
 </mapper>

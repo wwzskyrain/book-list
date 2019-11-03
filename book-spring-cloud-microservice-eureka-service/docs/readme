@@ -1,18 +1,60 @@
-1.  概念
-    1.  终极和原始目标：对微服务应用实例的自动化管理
-    2.  主要内容：服务注册与发现
+# 1.概念
+1.  终极和原始目标：对微服务应用实例的自动化管理
+2.  主要内容：服务注册与发现
 
-2.  程序说明
-    1.  目标：实现服务的注册和发现
-    2.  目标拆解：
-        1.  服务注册中心-eureka.server，启动并访问链接 [eureka主页](http://localhost:1111)
+# 2.程序说明
+## 2.1程序架构讲解
+1.  本模块`eureka-service`是服务注册中心-也即是服务端，主要是在pom中添加依赖，并使用注解`EnableEurekaServer`
+    启动eureka-server就好了；也即是说，本spring-boot模块只是eureka-server的
+    一个启动器。
+2.  eureka-client模块则是服务的注册端，这里服务注册所做的工作有二，一是使用`@EnableDiscoveryClient`
+    注解来启动一个eureka客户端，第二就是在application.properties配置文件中配置该
+    服务的参数，比如服务名字、注册中心的地址；注意，启动了eureka客户端之后，也是使用
+    自动注入的方式使用该客户端，比如访问一些服务端配置信息，自动注入形式比如
+    `@Autowired private DiscoveryClient client;`
 
-    3.  程序架构讲解
-        1.  本module是服务注册中心-也即是服务端，主要是在pom中添加依赖，并使用注解`EnableEurekaServer`
-            启动eureka-server就好了；也即是说，本spring-boot模块只是eureka-server的
-            一个启动器。
-        2.  eureka-client模块则是服务的注册端，这里服务注册所做的工作有二，一是使用`@EnableDiscoveryClient`
-            注解来启动一个eureka客户端，第二就是在application.properties配置文件中配置该
-            服务的参数，比如服务名字、注册中心的地址；注意，启动了eureka客户端之后，也是使用
-            自动注入的方式使用该客户端，比如访问一些服务端配置信息，自动注入形式比如
-            `@Autowired private DiscoveryClient client;`
+## 2.2 程序的正确启动方式和验证要点
+### 2.2.1 服务注册与发现
+这是eureka最基本也最简单的启动方式了，该括起来就是"启动注册中心"、"启动服务"，"查看是否注册成功"。
+1.  启动注册中心，即eureka的服务端，即模块eureka-service；
+    1.  启动脚本 `java -jar book-spring-cloud-microservice-eureka-service-1.0-SNAPSHOT.jar`
+    2.  启动之后，可以访问["注册中心"主页](http://localhost:1111/)；
+2.  启动服务提供方，即服务注册方，即eureka-client模块
+    1.  启动脚本 `java -jar book-spring-cloud-microservice-eureka-client-1.0-SNAPSHOT.jar`
+    2.  在"注册中心"主页的`Instances currently registered with Eureka`表格中会有一条application=HELLO_SERVICE的内容，
+    表示eureka-client提供的服务'HELLO_SERVICE'被注册成功了。至此我们的"服务注册"已经完成了。
+    但是服务发现尚未谈到。
+    3.  eureka-client本身作为一个Spring-Web服务也是向外提供了http访问入口的，当下只有一个[hello](http://localhost:8080/hello)
+3.  总结
+    1.  
+### 2.2.2 高可用注册中心
+1.  这个年前就做过；高可用的通常实现就是服务冗余或者说服务备份。
+    1.  不同机器上部署"注册中心"，并且让各个注册中心相互注册，即相互备份；
+    2.  服务注册方的"注册中心"url要指明多个注册中心。
+2.  操作步骤
+    1.  在本机启动两个"注册中心"进程，当然是用的服务注册监听端口不用，即是用不同的配置文件；
+    ```
+    java -jar book-spring-cloud-microservice-eureka-service-1.0-SNAPSHOT.jar --spring.profiles.active=peer2
+    java -jar book-spring-cloud-microservice-eureka-service-1.0-SNAPSHOT.jar --spring.profiles.active=peer1
+
+    // 注意两点：
+    //1.不同配置文件是使用spring的profile方式加载的。
+    //2.配置文件中使用了"机器名"，所以要在hosts文件中做好域名到ip的映射
+
+    ```
+    2.  启动服务注册模块`eureka-client`，eureka.client.serviceUrl.defaultZone要配置为两个"注册中心"的地址。
+    ```
+    java -jar book-spring-cloud-microservice-eureka-client-1.0-SNAPSHOT.jar --spring.profiles.active=peer1
+    ```
+    3.  启动好之后，就要验证了；
+    首先，在两个注册中心都要能发现"HELLO_SERVICE"服务，
+    然后杀死其中给一个"注册中心"进程，发现"HELLO_SERVICE"还在另一个"注册中心"存在，
+    就验证了"高可用配置中心"这个主题了。
+### 2.2.3 服务发现和消费
+
+
+
+
+4.  运行可执行jar包，且指定profile
+
+    `java -jar book-spring-cloud-microservice-eureka-service-1.0-SNAPSHOT.jar --spring.profiles.active=peer2`

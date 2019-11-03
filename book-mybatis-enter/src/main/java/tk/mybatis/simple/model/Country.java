@@ -1,5 +1,9 @@
 package tk.mybatis.simple.model;
 
+/**
+ * @author: erik.wang
+ * @Date: 2019/5/5
+ */
 public class Country {
 
     private Long id;
@@ -40,4 +44,5 @@ public class Country {
                 .toString();
 
     }
+
 }

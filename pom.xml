@@ -14,7 +14,8 @@
         <module>book-spring-cloud-microservice-in-action</module>
         <module>book-spring-cloud-microservice-eureka-service</module>
         <module>book-spring-cloud-microservice-eureka-client</module>
-        <module>book-spring-cloud-microservice-eureka-client</module>
+        <module>book-spring-cloud-microservice-ribbon-consumer</module>
+        <module>bookre-factoring</module>
     </modules>
 
 

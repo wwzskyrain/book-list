@@ -20,7 +20,7 @@ public class CacheTest {
     public static void setup() {
         Reader reader = null;
         try {
-            reader = Resources.getResourceAsReader("mybatis-config.xml");
+            reader = Resources.getResourceAsReader("mybatis-config-for-country-test.xml");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -14,14 +14,17 @@ import java.util.logging.Logger;
 public class HelloController {
 
 
-    @Autowired private DiscoveryClient client;
+    @Autowired
+    private DiscoveryClient client;
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     @ResponseBody
     public String index() {
         ServiceInstance instance = client.getLocalServiceInstance();
-        System.out.printf("/hello:%s,%s\n", instance.getHost(), instance.getServiceId());
-        return "Hello World";
+
+        String serviceInfo = String.format("/hello:%s,%s,%s\n", instance.getHost(), instance.getPort(), instance.getServiceId());
+
+        return "Hello World" + serviceInfo;
     }
 
 
