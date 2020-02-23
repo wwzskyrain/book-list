@@ -38,6 +38,8 @@ public class PathChildrenCache_Sample {
 				}
 			}
 		});
+
+		// TODO: 2020-02-20 下面对当前结点的操作，会被监听器监听到的 
 		client.create().withMode(CreateMode.PERSISTENT).forPath(path);
 		Thread.sleep( 1000 );
 		client.create().withMode(CreateMode.PERSISTENT).forPath(path+"/c1");

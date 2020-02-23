@@ -3,7 +3,8 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.barriers.DistributedBarrier;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-//使用Curator实现分布式Barrier
+
+// 使用Curator实现分布式Barrier
 public class Recipes_Barrier {
 	static String barrier_path = "/curator_recipes_barrier_path";
 	static DistributedBarrier barrier;

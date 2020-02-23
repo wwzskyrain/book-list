@@ -10,7 +10,7 @@ import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
-//使用Curator实现分布式锁功能
+// 使用Curator实现分布式锁功能
 public class Recipes_Lock {
 
     static String lock_path = "/curator_recipes_lock_path";

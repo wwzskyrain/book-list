@@ -30,6 +30,7 @@ public class NodeCache_Sample {
 			    new String(cache.getCurrentData().getData()));
 			}
 		});
+
 		client.setData().forPath( path, "u".getBytes() );
 		Thread.sleep( 1000 );
 		client.delete().deletingChildrenIfNeeded().forPath( path );

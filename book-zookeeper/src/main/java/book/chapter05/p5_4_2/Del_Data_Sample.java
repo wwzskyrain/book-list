@@ -25,4 +25,6 @@ public class Del_Data_Sample {
         client.delete().deletingChildrenIfNeeded()
                        .withVersion(stat.getVersion()).forPath(path);
     }
+
+    // TODO: 2020-02-20 zk中的三个版本号
 }

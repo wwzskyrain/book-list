@@ -7,6 +7,9 @@ import org.apache.curator.framework.recipes.leader.LeaderSelector;
 import org.apache.curator.framework.recipes.leader.LeaderSelectorListenerAdapter;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
+/**
+ *
+ */
 public class Recipes_MasterSelect {
 
     static String master_path = "/curator_recipes_master_path";
@@ -16,7 +19,9 @@ public class Recipes_MasterSelect {
             .retryPolicy(new ExponentialBackoffRetry(1000, 3)).build();
 
     public static void main(String[] args) throws Exception {
-        client.start();
+        client.start();     //应该不会阻塞
+
+        // 可以用多线程吗？
         LeaderSelector selector = new LeaderSelector(client,
                 master_path,
                 new LeaderSelectorListenerAdapter() {
@@ -29,7 +34,7 @@ public class Recipes_MasterSelect {
                     }
                 });
         selector.autoRequeue();
-        selector.start();
+        selector.start();  //应该是异步
         Thread.sleep(Integer.MAX_VALUE);
     }
 }

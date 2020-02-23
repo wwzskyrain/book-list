@@ -19,18 +19,19 @@ public class PathChildrenCache_Sample_ExecutorService {
             .retryPolicy(new ExponentialBackoffRetry(1000, 3))
             .sessionTimeoutMs(5000)
             .build();
-    static ExecutorService tp = Executors.newFixedThreadPool(2);
+    static ExecutorService threadPool = Executors.newFixedThreadPool(2);
     
 	public static void main(String[] args) throws Exception {
 		client.start();
 		System.out.println( Thread.currentThread().getName() );
-		PathChildrenCache cache = new PathChildrenCache(client, path,true,false,tp);
+		PathChildrenCache cache = new PathChildrenCache(client, path,true,false, threadPool);
 		cache.start(StartMode.NORMAL);
 		cache.getListenable().addListener(new PathChildrenCacheListener() {
 			public void childEvent(CuratorFramework client, 
 					               PathChildrenCacheEvent event) throws Exception {
 				switch (event.getType()) {
 				case CHILD_ADDED:
+					// TODO: 2020-02-20  能拿到的结点和数据吗
 					System.out.println("CHILD_ADDED," + event.getData().getPath());
 					System.out.println( "tname: " + Thread.currentThread().getName() );
 					break;

@@ -2,6 +2,7 @@ package book.chapter05.p5_4_2;
 import org.apache.curator.test.TestingCluster;
 import org.apache.curator.test.TestingZooKeeperServer;
 
+// TODO: 2020-02-20 啊，还有test-server呢
 public class TestingCluster_Sample {
 
 	public static void main(String[] args) throws Exception {
