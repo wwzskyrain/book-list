@@ -5,7 +5,9 @@ import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.junit.Before;
 
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static book.chapter05.CommonUtil.LOCAL_HOST;
 
@@ -17,6 +19,17 @@ import static book.chapter05.CommonUtil.LOCAL_HOST;
 public class BaseTest {
 
     protected CuratorFramework client;
+
+    private static AtomicInteger atomicInteger = new AtomicInteger(1);
+
+    public static ThreadFactory threadFactory = new ThreadFactory() {
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread thread = new Thread(r);
+            thread.setName("erik_thread" + atomicInteger.getAndIncrement());
+            return thread;
+        }
+    };
 
     @Before
     public void init() {
