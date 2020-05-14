@@ -16,6 +16,8 @@
         <module>book-spring-cloud-microservice-eureka-client</module>
         <module>book-spring-cloud-microservice-ribbon-consumer</module>
         <module>bookre-factoring</module>
+        <module>book-head-first-desigin-pattern</module>
+        <module>book-elastic-search-in-action</module>
     </modules>
 
 
