@@ -1,0 +1,28 @@
+# 1.客户端
+Redis的客户端数据结构解析，以此可以窥见服务器一般是如何定义和管理"网络客户端"的。
+
+比如，一定会有这些：
+套接字、名字、标志flags、状态、输入命令、command指针、输入缓冲区、
+输出缓冲区、身份验证、idle_time、interaction_time
+
+# 2.重点细节
+1.  flags是server用来记录client的状态，这个状态是server视角的。
+2.  flags是多个flag的或结构，比如'为客户端|强制将当前命令写入Aof|并复制到从服务器
+
+# tail.相关命令
+1.  client命令簇：
+    1.  list -列出当前的client
+    2.  setname
+    3.  getname
+    4.  pause - 暂停所有的客户端指定时长。其一个使用场景就是master-slave切换
+        1.  Pause the clients using CLIENT PAUSE
+        2.  Wait a few seconds to make sure the replicas processed the latest replication stream from the master.
+        3.  Turn one of the replicas into a master.
+        4.  Reconfigure clients to connect with the new master.
+    5.  reply ON|OFF|SKIP - 客户端说可以不要给我'reply'了。
+        1.  on 默认的参数，表示接下来的命令都不需要reply
+        2.  off 用于关闭'no-reply'
+        3.  skip 下次命令不需要reply
+
+2.  BLPOP/BRPOP - (我竟然不认得这两个命令) 阻塞版本的'从列表的左/右边边pop一个元素'，直到超市或有元素加入
+
