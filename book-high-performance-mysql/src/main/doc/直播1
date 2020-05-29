@@ -1,0 +1,22 @@
+## 1.有趣的命令
+1.  select varilable like '%dir%'
+2.  
+
+## 2.文件结构
+1.  binlog日志
+2.  错误日志.
+3.  二进制文件
+4.  慢查询日志
+5.  redo日志、undo日志
+6.  undo日志
+    1.  回滚
+    2.  事务隔离
+    3.  
+    
+   
+7.  数据日志
+    1.  table_name.frm - 用户表结构
+    2.  table_name.ibd - 用户表空间
+    3.  ibdata - 系统表空间 - 只有增量没有减量
+    4.  
+

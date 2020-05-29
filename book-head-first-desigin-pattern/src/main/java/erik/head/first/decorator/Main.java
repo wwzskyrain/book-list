@@ -13,7 +13,8 @@ public class Main {
         Beverage beverage = new Espresso();
 
         Beverage beverage2 = new Espresso();
-        beverage2 = new Mocha(beverage2); //得到了一个加了摩卡的'espresso'
+        //得到了一个加了摩卡的'espresso'
+        beverage2 = new Mocha(beverage2);
     }
 
 }
