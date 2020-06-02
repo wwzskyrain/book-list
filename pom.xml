@@ -21,6 +21,7 @@
         <module>book-redis-design-and-impl</module>
         <module>book-high-performance-mysql</module>
         <module>book-redis-in-action</module>
+        <module>column-mysql-in-action</module>
     </modules>
 
 
