@@ -2,7 +2,11 @@
 1.  kill query(默认) thread_id 和 kill connection thread_id 的作用原理
 2.  客户端误解1：库里的表特别多，链接就很慢
 3.  客户端误解2：链接单数 -quick 
-
+4.  自我勘误：
+    1.  之前一直我认为`kill query pid`中的query可以省略，其实记错了，是`kill connection pid`
+        可以省略，即`kill pid`是后者的简写，而不是前者； 
+    2.  再次补充一下：`kill query pid`是让线程不要在执行接下来的语句了；
+        而`kill pid`则会关闭链接，进而导致回滚事务。而kill query是不能回滚事务的，如果实物中持有了锁也是不能释放掉的
 # 2.关于kill
 1.  一个kill调的例子：sessionB（简称Sb）被blocked于Sa，这时候Sc开kill threadB（简称Tb）；
     可以看到Sb的客户端立刻被kill了。
