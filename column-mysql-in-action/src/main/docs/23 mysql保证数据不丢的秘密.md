@@ -12,20 +12,27 @@
     3.  总结：这就是binlog的刷盘机制了；
         注意各个设置的风险：0和n，在服务器异常断点、异常重启时，都会丢失数据。
         但是请注意，mysql异常重启，则不会丢失数据。因为这部分在os中，os为它保留着呢
+    
+    4.  binlog的写入时，有三个地方：每个thread一个binlog-cache、page-cache、disk。
+        sync_binlog的不同值表示提交几次才来一个fsync，比如0、1、n。
 
 3.  redolog的写入机制
     1.  按照redo-log的写入位置，innod_flush_log_at_trx_commit分为以下三个值
         1.  0-buffer中，每次事务提交，都只写到buffer中就齐了
         2.  1-直接fsync到磁盘
         3.  2-提交时只写到page_cache(os的文件缓存)中
-    2.  innodb中有一个1秒的定时线程，把buffer中的内容，先write在fsyc到磁盘
+    2.  innodb中有一个1秒的定时线程，把buffer中的内容，先write再fsyc到磁盘
     3.  总结：
         1.  因为1秒定时任务的存在，所以会存在尚未提交的redo-log被写到了disk
-        2.  初次之外还有两种情况会把尚未提交的redo-log被写到了disk
-            1.  redo-log-buffer空间蛋刀了innodb_log_buffer_size的一半（这是后台线程会写redo-buffer的数据到page-cache）
+        2.  除此之外还有两种情况会把尚未提交的redo-log被写到了disk
+            1.  redo-log-buffer空间达到了innodb_log_buffer_size的一半（这时后台线程会写redo-buffer的数据到page-cache）
             2.  组提交
     4.  补充：
         1.  如果innodb_flush_log_at_trx_commit=1,则redo_log在prepare时就要fsync一次磁盘
+        2.  redo-log的写入过程也要经历三个空间：buffer、page-cache、disk
+        3.  flush_log_at_trx_commit的值表示每次提交，redo-log写到哪里。
+            0表示buffer、1表示disk、2表示page-cache
+        
 
 
 4.  综合两个写入机制
